@@ -46,10 +46,29 @@ import org.xml.sax.SAXParseException;
  */
 public class XPathParser {
 
+  /**
+   * xml的Document 对象
+   */
   private final Document document;
+
+  /**
+   * 是否校验
+   */
   private boolean validation;
+
+  /**
+   * XML实体解析
+   */
   private EntityResolver entityResolver;
+
+  /**
+   * 变量 Properties对象
+   */
   private Properties variables;
+
+  /**
+   * Java Xpath对象
+   */
   private XPath xpath;
 
   public XPathParser(String xml) {
