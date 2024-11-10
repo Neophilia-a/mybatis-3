@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+SqlSessionFactoryBuilder -> XMLConfigBuilder: 创建XMLConfigBuilder对象
+XMLConfigBuilder -> XPathParser: 创建XPathParser对象
+XPathParser -> XPathParser: 调用commonConstructor\n给公共值赋值
+XPathParser -> XPathParser: 调用createDocument方法，\n创建document对象
+XPathParser -> XMLMapperEntityResolver: 解析xml文件
+XMLMapperEntityResolver -> XPathParser: 将xml里对应的元素封装为XNode
+XPathParser -> PropertyParser: 解析properties对应的值
+PropertyParser -> GenericTokenParser: 通用token解析器，此处解析${}，对应的变量并且赋值
+GenericTokenParser -> PropertyParser: 调用PropertyParser的静态内部类VariableTokenHandler\n将占位的${}替换为对应的值
+note right
+    此处VariableTokenHandler实现了TokenHandler接口
+    处理对应的token数据
+end note
+PropertyParser -> SqlSessionFactoryBuilder: 解析完成，生成对应SqlSessionFactory对象
+@enduml

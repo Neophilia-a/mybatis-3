@@ -24,7 +24,13 @@
 
     <!-- autoMappingBehavior should be set in each test case -->
 
-    <environments default="development">
+    <properties>
+        <property name="testName" value="zhazha"/>
+        <property name="environmentTest1" value="development"/>
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+    </properties>
+
+    <environments default="${environmentTest1}">
         <environment id="development">
             <transactionManager type="JDBC">
                 <property name="" value=""/>
