@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Invoker {
+   + invoke(Object target, Object[] args)
+   + Class<?> getType()
+}
+
+@enduml

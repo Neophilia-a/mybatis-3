@@ -29,6 +29,14 @@ public class SetFieldInvoker implements Invoker {
     this.field = field;
   }
 
+  /**
+   * 给字段设置属性值
+   *
+   * @param target  目标方法
+   * @param args    方法参数
+   * @return
+   * @throws IllegalAccessException
+   */
   @Override
   public Object invoke(Object target, Object[] args) throws IllegalAccessException {
     try {
@@ -43,6 +51,11 @@ public class SetFieldInvoker implements Invoker {
     return null;
   }
 
+  /**
+   * 返回字段类型
+   *
+   * @return  返回字段类型
+   */
   @Override
   public Class<?> getType() {
     return field.getType();

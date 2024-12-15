@@ -35,6 +35,13 @@ public abstract class BaseWrapper implements ObjectWrapper {
     this.metaObject = metaObject;
   }
 
+  /**
+   * 获取指定属性的值
+   *
+   * @param prop  PropertyTokenizer对象
+   * @param object  指定object对象
+   * @return  获取到的值
+   */
   protected Object resolveCollection(PropertyTokenizer prop, Object object) {
     if ("".equals(prop.getName())) {
       return object;
@@ -42,6 +49,13 @@ public abstract class BaseWrapper implements ObjectWrapper {
     return metaObject.getValue(prop.getName());
   }
 
+  /**
+   * 获取集合中指定位置的值
+   *
+   * @param prop  PropertyTokenizer对象
+   * @param collection  集合
+   * @return  集合中的值
+   */
   protected Object getCollectionValue(PropertyTokenizer prop, Object collection) {
     if (collection == null) {
       throw new ReflectionException("Cannot get the value '" + prop.getIndexedName() + "' because the property '"
@@ -77,6 +91,13 @@ public abstract class BaseWrapper implements ObjectWrapper {
     }
   }
 
+  /**
+   * 设置集合中指定位置的值
+   *
+   * @param prop PropertyTokenizer 对象
+   * @param collection 集合
+   * @param value 值
+   */
   protected void setCollectionValue(PropertyTokenizer prop, Object collection, Object value) {
     if (collection == null) {
       throw new ReflectionException("Cannot set the value '" + prop.getIndexedName() + "' because the property '"
@@ -113,6 +134,12 @@ public abstract class BaseWrapper implements ObjectWrapper {
     }
   }
 
+  /**
+   * 获取其他方法值 如test1.test2.test3 获取test2.test3
+   *
+   * @param prop  PropertyTokenizer对象
+   * @return 对应的值
+   */
   protected Object getChildValue(PropertyTokenizer prop) {
     MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
     if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
@@ -121,6 +148,12 @@ public abstract class BaseWrapper implements ObjectWrapper {
     return metaValue.getValue(prop.getChildren());
   }
 
+  /**
+   * 设置其他方法值
+   *
+   * @param prop  PropertyTokenizer对象
+   * @param value 对应的值
+   */
   protected void setChildValue(PropertyTokenizer prop, Object value) {
     MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
     if (metaValue == SystemMetaObject.NULL_META_OBJECT) {

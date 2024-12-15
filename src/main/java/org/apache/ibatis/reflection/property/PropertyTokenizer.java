@@ -21,12 +21,27 @@ import java.util.Iterator;
  * @author Clinton Begin
  */
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
+  /**
+   * 当前字符串
+   */
   private String name;
+  /**
+   * 索引的 {@link #name} ，因为 {@link #name} 如果存在 {@link #index} 会被更改
+   */
   private final String indexedName;
+  /**
+   * 索引
+   * 对于数组name[0]  index就是0
+   * 对应map[key]    index就是key
+   */
   private String index;
+  /**
+   * 剩余字符串 比如richType.richProperty 剩余richProperty 会被赋值给children
+   */
   private final String children;
 
   public PropertyTokenizer(String fullname) {
+    // 初始化name、children字符串使用. 分隔
     int delim = fullname.indexOf('.');
     if (delim > -1) {
       name = fullname.substring(0, delim);

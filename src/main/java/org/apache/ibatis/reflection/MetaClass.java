@@ -44,6 +44,7 @@ public class MetaClass {
   }
 
   public MetaClass metaClassForProperty(String name) {
+    // 构建属性
     Class<?> propType = reflector.getGetterType(name);
     return MetaClass.forClass(propType, reflectorFactory);
   }
@@ -54,9 +55,11 @@ public class MetaClass {
   }
 
   public String findProperty(String name, boolean useCamelCaseMapping) {
+    // 下划线转驼峰
     if (useCamelCaseMapping) {
       name = name.replace("_", "");
     }
+    // 获得属性
     return findProperty(name);
   }
 
@@ -165,16 +168,21 @@ public class MetaClass {
   }
 
   private StringBuilder buildProperty(String name, StringBuilder builder) {
+    // 创建PropertyTokenizer对象 进行分词
     PropertyTokenizer prop = new PropertyTokenizer(name);
     if (prop.hasNext()) {
+      // 获得属性名 并且将其添加到builder中
       String propertyName = reflector.findPropertyName(prop.getName());
       if (propertyName != null) {
         builder.append(propertyName);
         builder.append(".");
+        // 创建metaclass对象
         MetaClass metaProp = metaClassForProperty(propertyName);
+        // 递归解析children，将其添加到builder中
         metaProp.buildProperty(prop.getChildren(), builder);
       }
     } else {
+      // 无子表达式 直接加入builder中
       String propertyName = reflector.findPropertyName(name);
       if (propertyName != null) {
         builder.append(propertyName);

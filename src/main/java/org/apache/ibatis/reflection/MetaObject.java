@@ -32,7 +32,14 @@ import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
  */
 public class MetaObject {
 
+  /**
+   * 原始Object类
+   */
   private final Object originalObject;
+
+  /**
+   * 封装的Object
+   */
   private final ObjectWrapper objectWrapper;
   private final ObjectFactory objectFactory;
   private final ObjectWrapperFactory objectWrapperFactory;
@@ -45,19 +52,34 @@ public class MetaObject {
     this.objectWrapperFactory = objectWrapperFactory;
     this.reflectorFactory = reflectorFactory;
 
+    // 根据对象类型不同创建不通用的ObjectWrapper对象
     if (object instanceof ObjectWrapper) {
       this.objectWrapper = (ObjectWrapper) object;
+      // 这里objectWrapperFactory的getWrapperFor是没有任何实现的 此处如果走了这里的分支会报错
+      // 必须实现这里对应的方法
     } else if (objectWrapperFactory.hasWrapperFor(object)) {
       this.objectWrapper = objectWrapperFactory.getWrapperFor(this, object);
+      // 创建 MapWrapper 对象
     } else if (object instanceof Map) {
       this.objectWrapper = new MapWrapper(this, (Map) object);
+      // 创建 CollectionWrapper 对象
     } else if (object instanceof Collection) {
       this.objectWrapper = new CollectionWrapper(this, (Collection) object);
     } else {
+      // 创建 BeanWrapper 对象
       this.objectWrapper = new BeanWrapper(this, object);
     }
   }
 
+  /**
+   * 创建MetaObject对象
+   *
+   * @param object  原始 Object 对象
+   * @param objectFactory
+   * @param objectWrapperFactory
+   * @param reflectorFactory
+   * @return  MetaObject对象
+   */
   public static MetaObject forObject(Object object, ObjectFactory objectFactory,
       ObjectWrapperFactory objectWrapperFactory, ReflectorFactory reflectorFactory) {
     if (object == null) {
@@ -111,11 +133,14 @@ public class MetaObject {
   }
 
   public Object getValue(String name) {
+    // 分词器进行分词
     PropertyTokenizer prop = new PropertyTokenizer(name);
+    // 根据创建MetaObject对象的时候 产生的不同Wrapper 进行分词获取属性值
     return objectWrapper.get(prop);
   }
 
   public void setValue(String name, Object value) {
+    // 根据创建MetaObject对象的时候 产生的不同Wrapper 进行分词设置属性值
     objectWrapper.set(new PropertyTokenizer(name), value);
   }
 
