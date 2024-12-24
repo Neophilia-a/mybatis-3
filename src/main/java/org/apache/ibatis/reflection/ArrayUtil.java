@@ -36,6 +36,7 @@ public class ArrayUtil {
       return 0;
     }
     final Class<?> clazz = obj.getClass();
+    // 非数组类 直接返回对有点hashcode
     if (!clazz.isArray()) {
       return obj.hashCode();
     }
@@ -90,6 +91,7 @@ public class ArrayUtil {
     if (!clazz.equals(thatObj.getClass())) {
       return false;
     }
+    // 普通类 直接比较
     if (!clazz.isArray()) {
       return thisObj.equals(thatObj);
     }
