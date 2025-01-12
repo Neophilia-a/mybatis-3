@@ -48,10 +48,13 @@ public class PooledDataSource implements DataSource {
 
   private final UnpooledDataSource dataSource;
 
-  // OPTIONAL CONFIGURATION FIELDS
+  // 任意时间可以使用的连接数量
   protected int poolMaximumActiveConnections = 10;
+  // 任意时间可以存活的空闲连接数量
   protected int poolMaximumIdleConnections = 5;
+  // 在被强制返回前，池中被检出（check out）时间  单位毫秒
   protected int poolMaximumCheckoutTime = 20000;
+  //
   protected int poolTimeToWait = 20000;
   protected int poolMaximumLocalBadConnectionTolerance = 3;
   protected String poolPingQuery = "NO PING QUERY SET";
